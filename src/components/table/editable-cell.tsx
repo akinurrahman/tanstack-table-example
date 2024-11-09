@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import {
     Select,
@@ -21,12 +21,13 @@ type EditableCellProps<T> = {
     onSave: (value: string) => void
 }
 
+
 export function EditableCell<T>({
     value,
     column,
     onSave,
 }: EditableCellProps<T>) {
-    const [editedValue, setEditedValue] = React.useState(value)
+    const [editedValue, setEditedValue] = useState(value)
 
     const handleChange = (newValue: string) => {
         setEditedValue(newValue)
