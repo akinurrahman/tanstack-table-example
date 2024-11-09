@@ -1,101 +1,109 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import React, { useState } from 'react'
+import { ColumnDef } from '@tanstack/react-table'
+import { Table } from '@/components/table'
+import moment from 'moment'
+
+type Person = {
+  id: number
+  name: string
+  age: number
+  status: string
+  birthDate: string
+  createdAt: string
+}
+
+type ExtendedColumnDef<T> = ColumnDef<T> & {
+  width?: string
+  isEditable?: boolean
+}
+
+const columns: ExtendedColumnDef<Person>[] = [
+  {
+    accessorKey: 'name',
+    header: 'Name',
+    width: '20%',
+    isEditable: false
+  },
+  {
+    accessorKey: 'age',
+    header: 'Age',
+    width: '20%',
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+    width: '20%',
+    meta: {
+      fieldType: 'select',
+      options: [
+        { label: "Active", value: "123" },
+        { label: "Inactive", value: "456" },
+        { label: "Pending", value: "789" }
+      ],
+    },
+  },
+  {
+    accessorKey: 'birthDate',
+    header: 'Birth Date',
+    width: '20%',
+    meta: {
+      fieldType: 'date',
+    },
+    cell: ({ getValue }) => moment(getValue() as string).format('DD MMM YYYY'),
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Created At',
+    width: '20%',
+    meta: {
+      fieldType: 'date',
+    },
+    cell: ({ getValue }) => moment(getValue() as string).format('DD MMM YYYY HH:mm'),
+  },
+
+]
+
+const initialData: Person[] = [
+  { id: 1, name: 'John Doe', age: 30, status: '123', birthDate: '1993-05-15', createdAt: '2023-06-01T10:00:00Z' },
+  { id: 2, name: 'Jane Smith', age: 25, status: '456', birthDate: '1998-08-22', createdAt: '2023-06-02T11:30:00Z' },
+  { id: 3, name: 'Bob Johnson', age: 35, status: '789', birthDate: '1988-11-30', createdAt: '2023-06-03T09:15:00Z' },
+]
+
+export default function TableExample() {
+  const [data, setData] = useState(initialData)
+
+  const handleView = (row: Person) => {
+    console.log('Viewing:', row)
+  }
+
+  const handleDelete = (row: Person) => {
+    setData(data.filter((item) => item.id !== row.id))
+  }
+
+  const handleRowEdit = async (editedRow: Person) => {
+    // Simulating an API call
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    console.log('Sending to backend:', editedRow)
+    setData(data.map((row) => (row.id === editedRow.id ? editedRow : row)))
+  }
+
+  const handleRedirect = (row: Person) => {
+    console.log("redirecting ", row.id, "to /somewehrew")
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Reusable Table Example</h1>
+      <Table
+        columns={columns}
+        data={data}
+        onView={handleView}
+        onDelete={handleDelete}
+        onRowEdit={handleRowEdit}
+        // onRedirect={handleRedirect}
+      />
     </div>
-  );
+  )
 }
