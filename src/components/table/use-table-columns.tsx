@@ -90,7 +90,7 @@ function DeleteButton({ onDelete, row }: { onDelete: (row: any) => void, row: an
             onClick={() => onDelete(row)}
             className="bg-[#FF0800] text-white hover:bg-red-700 rounded-md px-4 py-2 transition-all text-sm"
           >
-            Continue
+            Delete
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

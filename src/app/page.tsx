@@ -11,7 +11,6 @@ type Person = {
   age: number;
   status: string;
   birthDate: string;
-  createdAt: string;
 };
 
 type ExtendedColumnDef<T> = ColumnDef<T> & {
@@ -23,18 +22,18 @@ const columns: ExtendedColumnDef<Person>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
-    width: '20%',
+    width: '22%',
     isEditable: false,
   },
   {
     accessorKey: 'age',
     header: 'Age',
-    width: '10%',
+    width: '22%',
   },
   {
     accessorKey: 'status',
     header: 'Status',
-    width: '15%',
+    width: '22%',
     meta: {
       fieldType: 'select',
       options: [
@@ -47,30 +46,22 @@ const columns: ExtendedColumnDef<Person>[] = [
   {
     accessorKey: 'birthDate',
     header: 'Birth Date',
-    width: '20%',
+    width: '22%',
     meta : {
       fieldType : "date",
     },
     cell: ({ getValue }) => moment(getValue() as string).format('DD-MM-YYYY'),
   },
-  {
-    accessorKey: 'createdAt',
-    header: 'Created At',
-    meta : {
-      fieldType: "date"
-    },
-    width: '20%',
-    cell: ({ getValue }) => moment(getValue() as string).format('DD-MM-YYYY'),
-  },
+ 
 ];
 
 const initialData: Person[] = [
-  { id: 1, name: 'Alice Johnson', age: 28, status: 'active', birthDate: '1995-05-15T10:00:00Z', createdAt: '2023-01-12T10:00:00Z' },
-  { id: 2, name: 'Michael Brown', age: 34, status: 'inactive', birthDate: '1989-09-10T10:00:00Z', createdAt: '2023-01-15T11:30:00Z' },
-  { id: 3, name: 'Sophia Davis', age: 22, status: 'pending', birthDate: '2001-02-25T10:00:00Z', createdAt: '2023-01-18T09:15:00Z' },
-  { id: 4, name: 'Liam Martinez', age: 40, status: 'active', birthDate: '1983-07-05T10:00:00Z', createdAt: '2023-02-20T14:00:00Z' },
-  { id: 5, name: 'Emma Wilson', age: 29, status: 'inactive', birthDate: '1994-12-30T10:00:00Z', createdAt: '2023-03-22T09:00:00Z' },
-  { id: 6, name: 'James Taylor', age: 31, status: 'active', birthDate: '1992-03-20T10:00:00Z', createdAt: '2023-04-12T08:00:00Z' },
+  { id: 1, name: 'Alice Johnson', age: 28, status: 'active', birthDate: '1995-05-15T10:00:00Z'  },
+  { id: 2, name: 'Michael Brown', age: 34, status: 'inactive', birthDate: '1989-09-10T10:00:00Z' },
+  { id: 3, name: 'Sophia Davis', age: 22, status: 'pending', birthDate: '2001-02-25T10:00:00Z', },
+  { id: 4, name: 'Liam Martinez', age: 40, status: 'active', birthDate: '1983-07-05T10:00:00Z', },
+  { id: 5, name: 'Emma Wilson', age: 29, status: 'inactive', birthDate: '1994-12-30T10:00:00Z', },
+  { id: 6, name: 'James Taylor', age: 31, status: 'active', birthDate: '1992-03-20T10:00:00Z', },
 ];
 
  function TableExample() {
